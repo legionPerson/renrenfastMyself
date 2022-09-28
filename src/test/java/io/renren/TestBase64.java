@@ -1,0 +1,29 @@
+package io.renren;/**
+ * @Author legion
+ * @Date 2022/9/6 14:23
+ */
+
+import org.springframework.util.Base64Utils;
+
+import java.io.UnsupportedEncodingException;
+
+/**
+ * @Author legion
+ * @Date 2022/9/6 14:23
+ *
+ */
+public class TestBase64 {
+
+    public static void main(String args[]){
+        String key = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC1NPDZL1u99gAnF8pFDQ9aj5VCInQVmAT3D3p1kXq5C/+61TcOFnHBFffgr+asiqudfEdSGvdfaKNgOFfOkZDswTypDg7skKZlGIuWMDENn5qoTcOUI9sIicMRT28uWMX0E0ox64G04bIKGMb30nFmP5cWDYcg7z2j5HTDoa7DsqeEHcIY8JmU2NBUhS38VrFs9Smo6uFrFLawdIGTtm2ZrCsLo1z9kB6ZBrAOI+wVWfo1McPMqGRDXT4ZeNd+8MKjHryxDFG7ggZoXIHdns8PfMj65lIGoCmTgkIZbsi2ExnnyNE9bLF6DzwEKEmN5m4HVIkTq6CJBeV/0Aab5K+BAgMBAAECggEAZJ3e1lmrkVEVSJ+3Gpxj2B89+5jx6EOfDig0ETAUesek2fMmPNZNl69BEivZ5BijrjCh0X9TuFB71yOx7et6E1xA+IXr14OCQURdzak4s53Z3HZBkPJP3u/Ptr7qt0tnr10+p3VjcjKYD28um9DoUqQgmogsbicpjOV/yFjwl4yd3qen2NbblRU9Z+V8twagZqIPOu3W74FrkucqmwiIn0sd6eLi0EvHs8XPsjSHaZ9+qXwY3TZ/FA3JtjoYP6LXfGi1gSb5m1lZeCJgH79syPwSxht9XYxdkvcHMUXhzWPjc+Bx0Y2wKSzA7+FYtM1/6n/qBXhoIkBXAhUpLm+wGQKBgQDqGWzeJqWk4EH3tFGWbJw9wi/OuGP1Ef7Tm+xRkqHnGj+sWFGTjQhQDw70KCe35ZbwSZ4sZEZceNBwMc7N1p0HvRdg8Q0lkWx/8dph5vQH4H2oSFo6cOl13E/HSoeZ4J7pDWHkPGtTMYXEzejy5W8J4ZHtjrWEltOD+i1LtweUBwKBgQDGKMNjf/FM1s0cJx/ncjbq1FRyMKK2SEideYF3Miz+xIIjzXEEU9Ls6zUfztMfayFKUyrIdb1a/wKcxemA1KOnF/Jv7VOHmgt5QUiJDM1UadD+muTgU05d1pjEHBizeZSLohTUpiyXvQOwcYHmCtdJMJTAF1OT31cGHyLQB5iONwKBgAL+TDwS9m9DRtSqA5kOznijsQTNqsmJb165Ua5BV7yiw0mq33Apj3+mkaRhlxBs6R8tcc5TgerQyKmGmYRcSCm/KztcGbTvRRnlt8skrt4i6rhqJG024GVXadW8iDtZee608xl+BElOCs3XbDEe6eqQbdNBzeRiIVZArq+XKYulAoGAHiLu7D/2A7ibQw/UM0/UeExId4FcDZraqFBlVypjW2+pVyaUbJMO/gcbcjXzN9EEJBiX5hq57I/h5tPWmkg8h1oF/e27CWFtI0jBbk5rH85kAYSvEEq7HVxYqWKYgxsXc1D4GAsZtw4A9KGenszBRxlDVh92D4Qk6QJtOfQdyGsCgYEAqCMxNKfMIJYIDd6rOhMmrqJvPz1pY1tEHQLNfYjunE9f7FbrwBf/Qlzu1FOzsEoEhBI1BC7QqF/+LIHO1kYdizIjbcs1Kdgo2OHXGVkiQedvZd7ppyxY14hozvy0Vsguty643R7LTB/CAtSK/YT7RdPxVenIoOBMWecYlkBb6+s=";
+        String cert = "MIID/zCCAuegAwIBAgIUJoOHy+N3Az+mEDr7k09T7kHH70wwDQYJKoZIhvcNAQELBQAwXjELMAkGA1UEBhMCQ04xEzARBgNVBAoTClRlbnBheS5jb20xHTAbBgNVBAsTFFRlbnBheS5jb20gQ0EgQ2VudGVyMRswGQYDVQQDExJUZW5wYXkuY29tIFJvb3QgQ0EwHhcNMjIwOTA2MDQxNzE2WhcNMjcwOTA1MDQxNzE2WjCBkDETMBEGA1UEAwwKMTU3NDM4MTA3MTEbMBkGA1UECgwS5b6u5L+h5ZWG5oi357O757ufMTwwOgYDVQQLDDPkuK3lm73lt6XllYbpk7booYzogqHku73mnInpmZDlhazlj7jmsrPljZfnnIHliIbooYwxCzAJBgNVBAYMAkNOMREwDwYDVQQHDAhTaGVuWmhlbjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALU08NkvW732ACcXykUND1qPlUIidBWYBPcPenWRerkL/7rVNw4WccEV9+Cv5qyKq518R1Ia919oo2A4V86RkOzBPKkODuyQpmUYi5YwMQ2fmqhNw5Qj2wiJwxFPby5YxfQTSjHrgbThsgoYxvfScWY/lxYNhyDvPaPkdMOhrsOyp4QdwhjwmZTY0FSFLfxWsWz1Kajq4WsUtrB0gZO2bZmsKwujXP2QHpkGsA4j7BVZ+jUxw8yoZENdPhl4137wwqMevLEMUbuCBmhcgd2ezw98yPrmUgagKZOCQhluyLYTGefI0T1ssXoPPAQoSY3mbgdUiROroIkF5X/QBpvkr4ECAwEAAaOBgTB/MAkGA1UdEwQCMAAwCwYDVR0PBAQDAgTwMGUGA1UdHwReMFwwWqBYoFaGVGh0dHA6Ly9ldmNhLml0cnVzLmNvbS5jbi9wdWJsaWMvaXRydXNjcmw/Q0E9MUJENDIyMEU1MERCQzA0QjA2QUQzOTc1NDk4NDZDMDFDM0U4RUJEMjANBgkqhkiG9w0BAQsFAAOCAQEAuQqEfj3wUSOEJhZhwtAGuEFXNdGNdzkydlazgFYsy+Gv+56hcdDI8hXwHzTlQ6+B4rhXVyN4yMonZal4fQ9aap9ZdWsBeQZw0TkE/9Dugbbiksne5Qe5XFUyk1Aoqb/tG+jJKQ7gm1aIHo/KEjVORYHfJpUS//j4wwM6bwMx02tXfqWqqtkXMg1cvWf303kEY4teYDGvmAcwKExfCqPKwOx1LQsdgN/ILF1CPwWVC1FhH+LWMlMH7K4CpCGoomvXUfJW8uIAAh8Mx6wEJfHDqjNLkylXp4Le5WW0KvQ+SXJiWqJmyJUzTba9rKmkJVYEUc+vRGxHS1uxgn4HMPyqxQ==";
+        try {
+            System.out.println(new String(Base64Utils.decodeFromString(key),"ISO-8859-1"));
+            System.out.println("=======");
+            System.out.println(new String(Base64Utils.decodeFromString(cert),"UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+}

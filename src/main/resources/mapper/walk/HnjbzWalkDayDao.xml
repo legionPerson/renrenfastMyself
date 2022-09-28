@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.renren.modules.walk.dao.HnjbzWalkDayDao">
+    <resultMap id="BaseResultMap" type="io.renren.modules.walk.entity.HnjbzWalkDayBean">
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="STEPS" jdbcType="DECIMAL" property="steps"/>
+        <result column="STEP_DATE" jdbcType="VARCHAR" property="stepDate"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        USER_ID, STEPS, STEP_DATE, CREATE_TIME, UPDATE_TIME
+    </sql>
+
+    <select id="selectDataPageList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayBean"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from HNJBZ_WALK_DAY t
+        <where>
+            <if test="null != record.userId and '' != record.userId">
+                and t.USER_ID = #{ record.userId }
+            </if>
+            <if test="null != record.stepDate and '' != record.stepDate">
+                and t.STEP_DATE = #{record.stepDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDataList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayBean"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from HNJBZ_WALK_DAY t
+        <where>
+            <if test="null != userId and '' != userId">
+                and t.USER_ID = #{ userId }
+            </if>
+            <if test="null != stepDate and '' != stepDate">
+                and t.STEP_DATE = #{ stepDate}
+            </if>
+            <if test="null != isExchange and '' != isExchange">
+                and t.IS_EXCHANGE = #{ isExchange}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDto" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayBean"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from HNJBZ_WALK_DAY t
+        <where>
+            <if test="null != userId and '' != userId">
+                and t.USER_ID = #{ userId }
+            </if>
+            <if test="null != stepDate and '' != stepDate">
+                and t.STEP_DATE = #{ stepDate}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertDto" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayBean">
+        insert into HNJBZ_WALK_DAY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="steps != null">
+                STEPS,
+            </if>
+            <if test="stepDate != null">
+                STEP_DATE,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="steps != null">
+                #{steps,jdbcType=DECIMAL},
+            </if>
+            <if test="stepDate != null">
+                #{stepDate,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateDto" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayBean">
+        update HNJBZ_WALK_DAY record
+        <set>
+            <if test="steps != null">
+                STEPS = #{steps,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isExchange != null">
+                IS_EXCHANGE = #{isExchange,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where USER_ID = #{userId } and STEP_DATE = #{ stepDate }
+    </update>
+
+    <delete id="deleteDto" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayBean">
+        delete
+        from HNJBZ_WALK_DAY
+        where USER_ID = #{userId }
+          and STEP_DATE = #{stepDate }
+    </delete>
+
+    <!-- 查询兑换规则 -->
+    <select id="getChangRatio" resultType="java.util.Map">
+        select r.id,r.subscription_ratio
+        from HNJBZ_ACTIVITY_RULE r
+        <where>
+            <if test="true">
+                r.enable_status = '1'
+            </if>
+        </where>
+    </select>
+    <!-- 查询当前地图总步数 -->
+    <select id="sumSteps" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayBean"
+            resultType="java.lang.Integer">
+        select NVL(sum(steps),0)
+        from HNJBZ_WALK_DAY t
+        <where>
+            <if test="null != userId and '' != userId">
+                and t.USER_ID = #{ userId }
+            </if>
+            <if test="null != stepDate and '' != stepDate">
+                and t.STEP_DATE &gt;= #{ stepDate}
+            </if>
+        </where>
+    </select>
+
+</mapper>

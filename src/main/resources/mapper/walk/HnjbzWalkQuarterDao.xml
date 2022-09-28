@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.renren.modules.walk.dao.HnjbzWalkQuarterDao">
+  <resultMap id="BaseResultMap" type="io.renren.modules.walk.entity.HnjbzWalkQuarterBean">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="QUARTER_STEPS" jdbcType="VARCHAR" property="quarterSteps" />
+    <result column="QUARTER" jdbcType="VARCHAR" property="quarter" />
+    <result column="YEAR" jdbcType="VARCHAR" property="year" />
+    <result column="CTEATE_TIME" jdbcType="TIMESTAMP" property="cteateTime" />
+  </resultMap>
+   
+  <sql id="Base_Column_List">
+    ID, USER_ID, QUARTER_STEPS, QUARTER, YEAR, CTEATE_TIME
+  </sql>
+  
+  <select id="selectDataPageList" parameterType="io.renren.modules.walk.entity.HnjbzWalkQuarterBean" 
+    resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HNJBZ_WALK_QUARTER t
+    <where>
+        <if test ="null != record.id and '' != record.id">
+			and  t.ID =  #{ record.id }
+		</if>
+		<if test ="null != record.userId and '' != record.userId">
+			and  t.USER_ID =  #{ record.userId }
+		</if>
+    </where>
+  </select> 
+  
+  <select id="selectDataList" parameterType="io.renren.modules.walk.entity.HnjbzWalkQuarterBean" 
+    resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HNJBZ_WALK_QUARTER t
+    <where>
+        <if test ="null != id and '' != id">
+			and  t.ID =  #{ id }
+		</if>
+		<if test ="null != userId and '' != userId">
+			and  t.USER_ID =  #{ userId }
+		</if>
+    </where>
+  </select> 
+  
+  <select id="selectDto" parameterType="io.renren.modules.walk.entity.HnjbzWalkQuarterBean" 
+    resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HNJBZ_WALK_QUARTER
+    <where>
+        <if test ="null != id and '' != id">
+			and  t.ID =  #{ id }
+		</if>
+		<if test ="null != userId and '' != userId">
+			and  t.USER_ID =  #{ userId }
+		</if>
+    </where>
+  </select>  
+  
+  
+  <insert id="insertDto" parameterType="io.renren.modules.walk.entity.HnjbzWalkQuarterBean">
+    insert into HNJBZ_WALK_QUARTER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="quarterSteps != null">
+        QUARTER_STEPS,
+      </if>
+      <if test="quarter != null">
+        QUARTER,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="cteateTime != null">
+        CTEATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="quarterSteps != null">
+        #{quarterSteps,jdbcType=VARCHAR},
+      </if>
+      <if test="quarter != null">
+        #{quarter,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="cteateTime != null">
+        #{cteateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+ 
+  
+  <update id="updateDto" parameterType="io.renren.modules.walk.entity.HnjbzWalkQuarterBean">
+    update HNJBZ_WALK_QUARTER
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="quarterSteps != null">
+        QUARTER_STEPS = #{quarterSteps,jdbcType=VARCHAR},
+      </if>
+      <if test="quarter != null">
+        QUARTER = #{quarter,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        YEAR = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="cteateTime != null">
+        CTEATE_TIME = #{cteateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="deleteDto" parameterType="io.renren.modules.walk.entity.HnjbzWalkQuarterBean">
+    delete from HNJBZ_WALK_QUARTER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+   
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.renren.modules.walk.dao.HnjbzMapMapper">
+  <resultMap id="BaseResultMap" type="io.renren.modules.walk.entity.HnjbzMapNodeBean">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="DECIMAL" property="name" />
+    <result column="stepNumber" jdbcType="VARCHAR" property="stepNumber" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <collection property="hnjbzNode" ofType="io.renren.modules.walk.entity.HnjbzNode">
+      <id property="id" column="node_id"/>
+      <result column="node_name" property="name"/>
+      <result column="map_id" property="mapId"/>
+      <result column="node_img" property="nodeImg"/>
+      <result column="node_type" property="nodeType"/>
+      <result column="node_describe" property="nodeDescribe"/>
+      <result column="node_order" property="nodeOrder"/>
+      <result column="node_coord" property="nodeCoord"/>
+      <result column="status" property="status"/>
+    </collection>
+  </resultMap>
+  
+  <select id="getAllMapList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayBean"
+   resultMap="BaseResultMap">
+    SELECT
+    m.id,
+    m.name,
+    m.step_number,
+    m.status,
+    m.create_time,
+    m.update_time,
+    n.id as node_id,
+    n.name as node_name,
+    n.map_id,
+    n.node_img,
+    n.node_type,
+    n.node_describe,
+    n.node_order,
+    n.node_coord,
+    n.status
+    FROM HNJBZ_MAP M
+    LEFT JOIN HNJBZ_NODE N ON N.MAP_ID = M.ID
+  </select>
+
+</mapper>

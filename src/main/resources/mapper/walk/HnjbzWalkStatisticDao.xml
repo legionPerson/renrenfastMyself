@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.renren.modules.walk.dao.HnjbzWalkStatisticDao">
+
+    <select id="selectPersionDayWalkList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic"
+            resultType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic">
+        select b.headimgurl,t.user_id, s.name user_name , t.steps from HNJBZ_WALK_DAY t
+        inner join HNJBZ_CHANNEL_USER b on t.user_id=b.id
+        inner join HNJBZ_USER_WHITE s on b.binding_phone=s.phone
+        inner join HNJBZ_ORG m on m.id=s.org_id and m.parent_id = #{ record.companyId}
+        <where>
+            <if test="null != record.stepDate and '' != record.stepDate">
+                and t.step_date = #{ record.stepDate}
+            </if>
+            <if test="null != record.orgId and '' != record.orgId">
+                and m.id = #{ record.orgId}
+            </if>
+        </where>
+        order by t.steps desc
+    </select>
+
+
+    <select id="selectOrganDayWalkList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic"
+            resultType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic">
+        select m.id org_id, m.name org_name ,avg( t.steps ) steps from HNJBZ_WALK_DAY t
+        inner join HNJBZ_CHANNEL_USER b on t.user_id=b.id
+        inner join HNJBZ_USER_WHITE s on b.binding_phone=s.phone
+        inner join HNJBZ_ORG m on m.id=s.org_id and m.parent_id = #{record.companyId}
+        <where>
+            <if test="null != record.stepDate and '' != record.stepDate">
+                and t.step_date = #{ record.stepDate}
+            </if>
+        </where>
+        group by m.id,m.name
+        order by steps desc
+    </select>
+
+
+    <select id="selectCompanyDayWalkList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic"
+            resultType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic">
+        select o.id company_id , o.name company_name ,avg( t.steps ) steps from HNJBZ_WALK_DAY t
+        inner join HNJBZ_CHANNEL_USER b on t.user_id=b.id
+        inner join HNJBZ_USER_WHITE s on b.binding_phone=s.phone
+        inner join HNJBZ_ORG m on m.id=s.org_id
+        inner join HNJBZ_ORG o on o.id=m.parent_id and o.parent_id= #{record.branchId}
+        <where>
+            <if test="null != record.stepDate and '' != record.stepDate">
+                and t.step_date = #{ record.stepDate}
+            </if>
+        </where>
+        group by o.id,o.name
+        order by steps desc
+    </select>
+
+
+    <select id="selectPersionSummaryWalkList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic"
+            resultType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic">
+        select b.headimgurl,t.user_id, s.name user_name , sum( t.steps ) steps from HNJBZ_WALK_DAY t
+        inner join HNJBZ_CHANNEL_USER b on t.user_id=b.id
+        inner join HNJBZ_USER_WHITE s on b.binding_phone=s.phone
+        inner join HNJBZ_ORG m on m.id=s.org_id and m.parent_id = #{record.companyId}
+        <where>
+            <if test="null != record.stepDateBegin and '' != record.stepDateBegin">
+                and t.step_date &gt;= #{record.stepDateBegin}
+            </if>
+            <if test="null != record.stepDateEnd and '' != record.stepDateEnd">
+                and t.step_date &lt;= #{record.stepDateEnd}
+            </if>
+            <if test="null != record.orgId and '' != record.orgId">
+                and m.id= #{record.orgId}
+            </if>
+        </where>
+        group by b.headimgurl,t.user_id, s.name
+        order by steps desc
+    </select>
+
+
+    <select id="selectOrganSummaryWalkList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic"
+            resultType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic">
+        select m.id org_id, m.name org_name ,avg( t.steps ) steps from HNJBZ_WALK_DAY t
+        inner join HNJBZ_CHANNEL_USER b on t.user_id=b.id
+        inner join HNJBZ_USER_WHITE s on b.binding_phone=s.phone
+        inner join HNJBZ_ORG m on m.id=s.org_id and m.parent_id = #{record.companyId}
+        <where>
+            <if test="null != record.stepDateBegin and '' != record.stepDateBegin">
+                and t.step_date &gt;= #{record.stepDateBegin}
+            </if>
+            <if test="null != record.stepDateEnd and '' != record.stepDateEnd">
+                and t.step_date &lt;= #{record.stepDateEnd}
+            </if>
+        </where>
+        group by m.id,m.name
+        order by steps desc
+    </select>
+
+
+    <select id="selectCompanySummaryWalkList" parameterType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic"
+            resultType="io.renren.modules.walk.entity.HnjbzWalkDayStatistic">
+        select o.id company_id , o.name company_name ,avg( t.steps ) steps from HNJBZ_WALK_DAY t
+        inner join HNJBZ_CHANNEL_USER b on t.user_id=b.id
+        inner join HNJBZ_USER_WHITE s on b.binding_phone = s.phone
+        inner join HNJBZ_ORG m on m.id=s.org_id
+        inner join HNJBZ_ORG o on o.id=m.parent_id and o.parent_id= #{record.branchId}
+        <where>
+            <if test="null != record.stepDateBegin and '' != record.stepDateBegin">
+                and t.step_date &gt;= #{record.stepDateBegin}
+            </if>
+            <if test="null != record.stepDateEnd and '' != record.stepDateEnd">
+                and t.step_date &lt;= #{record.stepDateEnd}
+            </if>
+        </where>
+        group by o.id,o.name
+        order by steps desc
+    </select>
+
+    <!-- 当前用户所属部门 -->
+    <select id="selectUserDept" parameterType="java.lang.String" resultType="java.lang.String">
+        select s.id deptId
+        from HNJBZ_CHANNEL_USER t
+                 inner join HNJBZ_USER_WHITE b on t.binding_phone = b.phone
+                 inner join HNJBZ_ORG s on b.org_id = s.id and s.org_level = '5'
+        where t.openid = #{openid}
+    </select>
+    <!-- 当前用户所属单位 -->
+    <select id="selectUserCompany" parameterType="java.lang.String" resultType="java.lang.String">
+        select s.parent_id companyId
+        from HNJBZ_CHANNEL_USER t
+                 inner join HNJBZ_USER_WHITE b on t.binding_phone = b.phone
+                 inner join HNJBZ_ORG s on b.org_id = s.id and s.org_level = '5'
+        where t.openid = #{openid}
+    </select>
+
+    <!-- 当前用户所属分行 -->
+    <select id="selectUserBranch" parameterType="java.lang.String" resultType="java.lang.String">
+        select o.parent_id branchId
+        from HNJBZ_CHANNEL_USER t
+                 inner join HNJBZ_USER_WHITE b on t.binding_phone = b.phone
+                 inner join HNJBZ_ORG s on b.org_id = s.id and s.org_level = '5'
+                 inner join HNJBZ_ORG o on o.id = s.parent_id and o.org_level = '4'
+        where t.openid = #{openid}
+    </select>
+
+
+</mapper>
